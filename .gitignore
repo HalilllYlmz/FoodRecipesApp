@@ -1,0 +1,56 @@
+# Android Studio specific
+.idea/
+*.iml
+*.hprof
+
+# Gradle
+.gradle/
+build/
+*/build/
+
+# Android specific
+.cxx/
+.externalNativeBuild/
+*.apk
+*.ap_
+*.dex
+*.so
+*.o
+*.obj
+*.class
+*.jar
+*.war
+*.ear
+*.swp
+*.lock
+*/generated/
+
+# Built application files
+*.apk
+*.aab
+
+# Local configuration file (sdk path, keystore passwords, etc.)
+local.properties
+
+# Log files
+*.log
+
+# Mobile tooling specific
+.fastboot/
+.adb/
+
+# ProGuard files
+proguard/
+proguard-project.txt
+
+# Keystore files
+*.jks
+*.keystore
+
+# Files for layout and navigation previews
+*.orig
+.navigation/
+layout/*/preview/
+
+# XML backup files (often created by text editors)
+*.xml~
