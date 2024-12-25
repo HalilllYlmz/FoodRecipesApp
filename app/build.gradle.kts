@@ -1,8 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
+
 }
 
 android {
@@ -36,8 +37,10 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
-        dataBinding = true
+        viewBinding = true
     }
+
+
 }
 
 dependencies {
@@ -51,42 +54,38 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    // Navigation
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui.ktx)
 
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.datastore.preferences)
 
-    ksp(libs.androidx.hilt.compiler)
+
+    // Dagger-Hilt
+    implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
+    // Lifecycle
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+
+
+    // Room
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+
+    // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android)
-
-
-    implementation(libs.androidx.datastore.preferences)
-
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
-
-    implementation(libs.kotlinx.coroutines.android)
-
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
-
     implementation(libs.coil)
-
-    // Gson
     implementation(libs.gson)
-
-    // Shimmer
-    implementation(libs.shimmer)
-
-    // Jsoup
     implementation(libs.jsoup)
+
+
 }
