@@ -5,4 +5,9 @@
     <string name="recipes_fragment">Recipes Fragment</string>
     <string name="favorite_recipes_fragment">Favorite Recipes Fragment</string>
     <string name="food_joke_fragment">Food Joke Fragment</string>
+    <string name="add_food">Add food</string>
+    <string name="recipe_image">Recipe Image</string>
+    <string name="heart_icon">Heart Icon</string>
+    <string name="clock_icon">Clock Icon</string>
+    <string name="leaf_icon">Leaf Icon</string>
 </resources>

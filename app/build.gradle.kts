@@ -87,5 +87,6 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.jsoup)
 
+    implementation(libs.material)
 
 }
