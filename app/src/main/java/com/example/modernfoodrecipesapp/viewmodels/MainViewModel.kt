@@ -1,4 +1,4 @@
-package com.example.modernfoodrecipesapp
+package com.example.modernfoodrecipesapp.viewmodels
 
 import android.app.Application
 import android.content.Context
@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.modernfoodrecipesapp.data.Repository
 import com.example.modernfoodrecipesapp.model.FoodRecipe
-import com.example.modernfoodrecipesapp.util.NetworkResult
+import com.example.modernfoodrecipesapp.utilities.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response

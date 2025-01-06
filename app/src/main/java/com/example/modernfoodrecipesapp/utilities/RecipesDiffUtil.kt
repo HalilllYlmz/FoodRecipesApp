@@ -1,4 +1,4 @@
-package com.example.modernfoodrecipesapp.util
+package com.example.modernfoodrecipesapp.utilities
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.modernfoodrecipesapp.model.Result

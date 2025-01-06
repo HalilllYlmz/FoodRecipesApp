@@ -10,7 +10,7 @@ import com.example.modernfoodrecipesapp.R
 import com.example.modernfoodrecipesapp.databinding.RecipesRowLayoutBinding
 import com.example.modernfoodrecipesapp.model.FoodRecipe
 import com.example.modernfoodrecipesapp.model.Result
-import com.example.modernfoodrecipesapp.util.RecipesDiffUtil
+import com.example.modernfoodrecipesapp.utilities.RecipesDiffUtil
 
 class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
 

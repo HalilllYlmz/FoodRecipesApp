@@ -1,4 +1,4 @@
-package com.example.modernfoodrecipesapp.util
+package com.example.modernfoodrecipesapp.utilities
 
 sealed class NetworkResult<T>(
     val data: T? = null,
