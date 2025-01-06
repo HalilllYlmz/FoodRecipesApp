@@ -2,10 +2,12 @@ package com.example.modernfoodrecipesapp.ui.fragments.recipes
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.modernfoodrecipesapp.databinding.RecipesRowLayoutBinding
 import com.example.modernfoodrecipesapp.model.FoodRecipe
 import com.example.modernfoodrecipesapp.model.Result
+import com.example.modernfoodrecipesapp.util.RecipesDiffUtil
 
 class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
 
@@ -39,7 +41,9 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
     override fun getItemCount() = recipes.size
 
     fun setData(newData: FoodRecipe) {
+        val recipesDiffUtil = RecipesDiffUtil(recipes, newData.results)
+        val diffUtilResult = DiffUtil.calculateDiff(recipesDiffUtil)
         recipes = newData.results
-        notifyDataSetChanged()
+        diffUtilResult.dispatchUpdatesTo(this)
     }
 }
