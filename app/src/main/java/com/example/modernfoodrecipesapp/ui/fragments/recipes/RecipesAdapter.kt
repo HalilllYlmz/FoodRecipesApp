@@ -2,8 +2,11 @@ package com.example.modernfoodrecipesapp.ui.fragments.recipes
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import com.example.modernfoodrecipesapp.R
 import com.example.modernfoodrecipesapp.databinding.RecipesRowLayoutBinding
 import com.example.modernfoodrecipesapp.model.FoodRecipe
 import com.example.modernfoodrecipesapp.model.Result
@@ -15,8 +18,35 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
 
     class ViewHolder(private val binding: RecipesRowLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(result: Result) {
-            // ToDo
+            binding.titleTextView.text = result.title
+            binding.descriptionTextView.text = result.summery
+            binding.heartTextView.text = result.aggregateLikes.toString()
+            binding.clockTextView.text = result.readyInMinutes.toString()
+
+            val isVegan = result.vegan
+            if (isVegan) {
+                binding.leafTextView.setTextColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.green
+                    )
+                )
+                binding.leafImageView.setColorFilter(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.green
+                    )
+                )
+            }
+
+            binding.recipeImageView.load(result.image) {
+                crossfade(600)
+            }
+
+
+
         }
 
         companion object {

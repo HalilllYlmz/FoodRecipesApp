@@ -16,6 +16,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+    @Singleton
+    @Provides
     fun provideHttpClient(): OkHttpClient {
         return OkHttpClient
             .Builder()
