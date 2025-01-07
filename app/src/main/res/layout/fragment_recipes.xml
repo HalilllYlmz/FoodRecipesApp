@@ -15,12 +15,13 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
+        android:id="@+id/fabBottomSheet"
         android:layout_height="wrap_content"
         android:contentDescription="@string/add_food"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_fastfood"
+        android:src="@drawable/ic_restaurant"
         android:clickable="true"
         app:tint="@color/white"
         android:layout_marginBottom="24dp"
