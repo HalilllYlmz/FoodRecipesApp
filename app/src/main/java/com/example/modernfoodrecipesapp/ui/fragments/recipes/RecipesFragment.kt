@@ -68,6 +68,7 @@ class RecipesFragment : Fragment() {
             mainViewModel.readRecipes.observe(viewLifecycleOwner) { database->
                 if(database.isNotEmpty()) {
                     mAdapter.setData(database[0].foodRecipe)
+                    binding.ivError.visibility = View.GONE
                 }
             }
         }
@@ -83,6 +84,10 @@ class RecipesFragment : Fragment() {
 
                 is NetworkResult.Error -> {
                     loadDataFromCache()
+                    if(binding.tvError.visibility != View.GONE) {
+                        binding.ivError.visibility = View.VISIBLE
+                        binding.tvError.visibility = View.VISIBLE
+                    }
                     Toast.makeText(
                         requireContext(),
                         response.message.toString(),

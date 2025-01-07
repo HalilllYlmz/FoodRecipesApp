@@ -89,5 +89,8 @@ dependencies {
 
     implementation(libs.material)
 
+    // Datastore
+    implementation(libs.androidx.datastore.preferences)
+
 
 }
