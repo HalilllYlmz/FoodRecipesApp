@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.modernfoodrecipesapp.viewmodels.MainViewModel
 import com.example.modernfoodrecipesapp.databinding.FragmentRecipesBinding
 import com.example.modernfoodrecipesapp.utilities.NetworkResult
+import com.example.modernfoodrecipesapp.utilities.observeOnce
 import com.example.modernfoodrecipesapp.viewmodels.RecipesViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RecipesFragment : Fragment() {
@@ -37,7 +40,37 @@ class RecipesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        requestApiData()
+        readDatabase()
+    }
+
+    private fun setupRecyclerView() {
+        with(binding.recyclerView) {
+            adapter = mAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+    }
+
+    private fun readDatabase() {
+        lifecycleScope.launch {
+            mainViewModel.readRecipes.observeOnce(viewLifecycleOwner) { database ->
+                if (database.isNotEmpty()) {
+                    println("Read Database")
+                    mAdapter.setData(database[0].foodRecipe)
+                } else {
+                    requestApiData()
+                }
+            }
+        }
+    }
+
+    private fun loadDataFromCache() {
+        lifecycleScope.launch {
+            mainViewModel.readRecipes.observe(viewLifecycleOwner) { database->
+                if(database.isNotEmpty()) {
+                    mAdapter.setData(database[0].foodRecipe)
+                }
+            }
+        }
     }
 
     private fun requestApiData() {
@@ -49,12 +82,14 @@ class RecipesFragment : Fragment() {
                 }
 
                 is NetworkResult.Error -> {
+                    loadDataFromCache()
                     Toast.makeText(
                         requireContext(),
                         response.message.toString(),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+
                 is NetworkResult.Loading -> {
 
                 }
@@ -62,17 +97,9 @@ class RecipesFragment : Fragment() {
         })
     }
 
-    private fun setupRecyclerView() {
-        with(binding.recyclerView) {
-            adapter = mAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 
 }

@@ -43,8 +43,8 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
 
             binding.recipeImageView.load(result.image) {
                 crossfade(600)
+                error(R.drawable.ic_error_placeholder)
             }
-
 
 
         }
