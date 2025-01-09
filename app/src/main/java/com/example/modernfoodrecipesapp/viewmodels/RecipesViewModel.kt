@@ -1,6 +1,9 @@
 package com.example.modernfoodrecipesapp.viewmodels
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.modernfoodrecipesapp.data.DataStoreRepository
 import com.example.modernfoodrecipesapp.utilities.Constants.Companion.API_KEY
@@ -26,7 +29,33 @@ class RecipesViewModel @Inject constructor(
     private var mealType = DEFAULT_MEAL_TYPE
     private var dietType = DEFAULT_DIET_TYPE
 
-    val readMealAndDietType = dataStoreRepository.readAndDietType
+    var networkStatus = false
+    var backOnline = false
+
+    val readMealAndDietType = dataStoreRepository.readMealAndDietType
+    val readBackOnline = dataStoreRepository.readBackOnline.asLiveData()
+
+    private val _networkStatusMessage = MutableLiveData<String>()
+    val networkStatusMessage: LiveData<String> get() = _networkStatusMessage
+
+    fun checkNetworkStatus() {
+        if (!networkStatus) {
+            _networkStatusMessage.value = "No network connection"
+            saveBackOnline(true)
+        } else if(networkStatus) {
+            if(backOnline) {
+                _networkStatusMessage.value = "We're back online"
+                saveBackOnline(false)
+            }
+        }
+    }
+
+    fun saveBackOnline(backOnline: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStoreRepository.saveBackOnline(backOnline)
+        }
+    }
+
 
     fun saveMealAndDietType(mealType: String, mealTypeID: Int, dietType: String, dietTypeID: Int) =
         viewModelScope.launch(Dispatchers.IO) {
@@ -41,6 +70,8 @@ class RecipesViewModel @Inject constructor(
                 mealType = value.selectedMealType
                 dietType = value.selectedDietType
             }
+            println("MealType: $mealType")
+            println("DietType: $dietType")
         }
 
         queries[QUERY_NUMBER] = DEFAULT_RECIPES_NUMBER

@@ -1,12 +1,14 @@
 package com.example.modernfoodrecipesapp.ui.fragments.recipes
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.modernfoodrecipesapp.R
 import com.example.modernfoodrecipesapp.viewmodels.MainViewModel
 import com.example.modernfoodrecipesapp.databinding.FragmentRecipesBinding
+import com.example.modernfoodrecipesapp.utilities.NetworkListener
 import com.example.modernfoodrecipesapp.utilities.NetworkResult
 import com.example.modernfoodrecipesapp.utilities.observeOnce
 import com.example.modernfoodrecipesapp.viewmodels.RecipesViewModel
@@ -32,6 +35,8 @@ class RecipesFragment : Fragment() {
 
     private val args by navArgs<RecipesFragmentArgs>()
 
+    private lateinit var networkListener: NetworkListener
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,11 +49,34 @@ class RecipesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        readDatabase()
+
+        recipesViewModel.readBackOnline.observe(viewLifecycleOwner) {
+            recipesViewModel.backOnline = it
+        }
+
+        recipesViewModel.networkStatusMessage.observe(viewLifecycleOwner, { message ->
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        })
+
+        lifecycleScope.launch {
+            networkListener = NetworkListener()
+            networkListener.checkNetworkAvailability(requireContext())
+                .collect { status ->
+                    Log.d("NetworkListener", status.toString())
+                    recipesViewModel.networkStatus = status
+                    recipesViewModel.checkNetworkStatus()
+                    readDatabase()
+                }
+        }
 
         binding.fabBottomSheet.setOnClickListener {
-            findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
+            if(recipesViewModel.networkStatus) {
+                findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
+            }else {
+                Toast.makeText(requireContext(), "No Internet Connection", Toast.LENGTH_SHORT).show()
+            }
         }
+
     }
 
     private fun setupRecyclerView() {
