@@ -12,6 +12,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.modernfoodrecipesapp.data.Repository
 import com.example.modernfoodrecipesapp.data.database.RecipesEntity
 import com.example.modernfoodrecipesapp.model.FoodRecipe
+import com.example.modernfoodrecipesapp.utilities.Constants.Companion.API_KEY
+import com.example.modernfoodrecipesapp.utilities.Constants.Companion.DEFAULT_RECIPES_NUMBER
+import com.example.modernfoodrecipesapp.utilities.Constants.Companion.QUERY_ADD_RECIPE_INFORMATION
+import com.example.modernfoodrecipesapp.utilities.Constants.Companion.QUERY_API_KEY
+import com.example.modernfoodrecipesapp.utilities.Constants.Companion.QUERY_FILL_INGREDIENTS
+import com.example.modernfoodrecipesapp.utilities.Constants.Companion.QUERY_NUMBER
+import com.example.modernfoodrecipesapp.utilities.Constants.Companion.QUERY_SEARCH
 import com.example.modernfoodrecipesapp.utilities.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -38,11 +45,30 @@ class MainViewModel @Inject constructor(
     // RETROFIT
 
     var recipesResponse: MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
+    var searchRecipesResponse: MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
 
     fun getRecipes(
         queries: Map<String, String>
     ) = viewModelScope.launch {
         getRecipesSafeCall(queries)
+    }
+
+    fun searchRecipes(searchQuery: Map<String, String>) = viewModelScope.launch {
+        searchRecipesSafeCall(searchQuery)
+    }
+
+    private suspend fun searchRecipesSafeCall(searchQuery: Map<String, String>) {
+        searchRecipesResponse.value = NetworkResult.Loading()
+        if(hasInternetConnection()) {
+            try {
+                val response = repository.remote.searchRecipes(searchQuery)
+                searchRecipesResponse.value = handleFoodRecipesResponse(response)
+            } catch (_: Exception) {
+                searchRecipesResponse.value = NetworkResult.Error("Recipes not found.")
+            }
+        }else {
+            searchRecipesResponse.value = NetworkResult.Error("No Internet Connection")
+        }
     }
 
     private suspend fun getRecipesSafeCall(queries: Map<String, String>) {
@@ -90,6 +116,8 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
+
 
     private fun hasInternetConnection(): Boolean {
         val connectivityManager = getApplication<Application>().getSystemService(
