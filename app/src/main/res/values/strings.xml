@@ -40,5 +40,6 @@
     <string name="diet_type">Diet Type</string>
     <string name="apply">Apply</string>
     <string name="search">Search</string>
+    <string name="tab_layout">Tab Layout</string>
 
 </resources>

@@ -12,14 +12,16 @@ import com.example.modernfoodrecipesapp.model.FoodRecipe
 import com.example.modernfoodrecipesapp.model.Result
 import com.example.modernfoodrecipesapp.utilities.RecipesDiffUtil
 
-class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
+class RecipesAdapter(
+    private val onItemClick: (Result) -> Unit
+) : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
 
     private var recipes = emptyList<Result>()
 
     class ViewHolder(private val binding: RecipesRowLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(result: Result) {
+        fun bind(result: Result, onItemClick: (Result) -> Unit) {
             binding.titleTextView.text = result.title
             binding.descriptionTextView.text = result.summery
             binding.heartTextView.text = result.aggregateLikes.toString()
@@ -46,6 +48,9 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
                 error(R.drawable.ic_error_placeholder)
             }
 
+            binding.rowCardView.setOnClickListener {
+                onItemClick(result)
+            }
 
         }
 
@@ -65,7 +70,7 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentResult = recipes[position]
-        holder.bind(currentResult)
+        holder.bind(currentResult, onItemClick)
     }
 
     override fun getItemCount() = recipes.size

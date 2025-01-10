@@ -34,7 +34,10 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private val mainViewModel: MainViewModel by viewModels()
     private val recipesViewModel: RecipesViewModel by viewModels()
-    private val mAdapter by lazy { RecipesAdapter() }
+    private val mAdapter by lazy { RecipesAdapter(){
+        val action = RecipesFragmentDirections.actionRecipesFragmentToDetailsActivity(it)
+        findNavController().navigate(action)
+    } }
 
     private val args by navArgs<RecipesFragmentArgs>()
 
