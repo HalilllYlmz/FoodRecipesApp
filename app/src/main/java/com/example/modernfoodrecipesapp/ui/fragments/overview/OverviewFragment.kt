@@ -10,6 +10,7 @@ import coil.load
 import com.example.modernfoodrecipesapp.R
 import com.example.modernfoodrecipesapp.databinding.FragmentOverviewBinding
 import com.example.modernfoodrecipesapp.model.Result
+import com.example.modernfoodrecipesapp.utilities.Constants.Companion.RECIPES_RESULT_KEY
 import org.jsoup.Jsoup
 
 class OverviewFragment : Fragment() {
@@ -30,7 +31,7 @@ class OverviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val args = arguments
-        val myBundle: Result? = args?.getParcelable("recipesBundle")
+        val myBundle: Result? = args?.getParcelable(RECIPES_RESULT_KEY)
 
         with(binding) {
             mainImageView.load(myBundle?.image)

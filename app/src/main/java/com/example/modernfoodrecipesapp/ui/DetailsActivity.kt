@@ -15,6 +15,7 @@ import com.example.modernfoodrecipesapp.ui.fragments.PagerAdapter
 import com.example.modernfoodrecipesapp.ui.fragments.ingredients.IngredientsFragment
 import com.example.modernfoodrecipesapp.ui.fragments.instructions.InstructionsFragment
 import com.example.modernfoodrecipesapp.ui.fragments.overview.OverviewFragment
+import com.example.modernfoodrecipesapp.utilities.Constants.Companion.RECIPES_RESULT_KEY
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -49,7 +50,7 @@ class DetailsActivity : AppCompatActivity() {
         titles.add("Instructions")
 
         val resultBundle = Bundle()
-        resultBundle.putParcelable("recipesBundle", args.result)
+        resultBundle.putParcelable(RECIPES_RESULT_KEY, args.result)
 
         val adapter = PagerAdapter(
             resultBundle,
