@@ -46,4 +46,7 @@
     <string name="cheap">Cheap</string>
     <string name="healthy">Healthy</string>
     <string name="dairy_free">Dairy Free</string>
+    <string name="recipes">Recipes</string>
+    <string name="favorites">Favorites</string>
+    <string name="joke">Joke</string>
 </resources>
