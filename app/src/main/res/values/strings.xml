@@ -50,4 +50,7 @@
     <string name="favorites">Favorites</string>
     <string name="joke">Joke</string>
     <string name="save_to_favorites">Save To Favorites</string>
+    <string name="no_favorite_recipes">No Favorite Recipes</string>
+    <string name="delete_favorite_menu">Delete Favorite Menu</string>
+    <string name="delete_all">Delete All</string>
 </resources>
