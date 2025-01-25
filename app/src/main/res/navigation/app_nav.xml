@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/recipesFragment"
         android:name="com.example.modernfoodrecipesapp.ui.fragments.recipes.RecipesFragment"
-        android:label="fragment_recipes"
+        android:label="Food Recipes"
         tools:layout="@layout/fragment_recipes" >
         <action
             android:id="@+id/action_recipesFragment_to_recipesBottomSheet"
@@ -24,7 +24,7 @@
     <fragment
         android:id="@+id/favoriteRecipesFragment"
         android:name="com.example.modernfoodrecipesapp.ui.fragments.favorites.FavoriteRecipesFragment"
-        android:label="fragment_favorite_recipes"
+        android:label="Favorite Recipes"
         tools:layout="@layout/fragment_favorite_recipes" >
         <action
             android:id="@+id/action_favoriteRecipesFragment_to_detailsActivity"
@@ -33,7 +33,7 @@
     <fragment
         android:id="@+id/foodJokeFragment"
         android:name="com.example.modernfoodrecipesapp.ui.fragments.foodjoke.FoodJokeFragment"
-        android:label="fragment_food_joke"
+        android:label="Food Joke"
         tools:layout="@layout/fragment_food_joke" />
     <dialog
         android:id="@+id/recipesBottomSheet"
